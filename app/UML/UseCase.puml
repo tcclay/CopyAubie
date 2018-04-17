@@ -1,0 +1,13 @@
+@startuml
+title "Copy Aubie" Use Case Diagram
+skinparam packageStyle rectangle
+actor  Player
+rectangle {
+
+  Player -- (Select skill level)
+
+  Player -- (Play game)
+  (Play game) .-> (View “Aubie” series) : <<includes>>
+  (Play game) .-> (Enter “Aubie” series) : <<includes>>
+}
+@enduml

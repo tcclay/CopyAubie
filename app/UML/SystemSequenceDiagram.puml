@@ -1,0 +1,30 @@
+@startuml
+title "Copy Aubie" System Sequence Diagram
+actor Player
+participant Aubie
+
+group SD:  Copy Aubie
+
+Player -> Aubie: start
+
+group game
+Player -> Aubie: select skill level\t\t\t
+
+loop while  ("Aubie" sequence repeated correctly)
+Player <-- Aubie: plays sequence with one additional button
+
+loop while (player selects next button in sequence correctly)
+Player -> Aubie: press button
+
+end
+end
+
+Player <-- Aubie: \t\t\t\t\t\tgame over
+Player <-- Aubie: \t\t\t\t    display high score
+
+end
+Player -> Aubie: end
+
+
+end
+@enduml
