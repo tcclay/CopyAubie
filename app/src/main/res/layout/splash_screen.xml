@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EFEAEF">
+    android:background="#EFEAEF"
+    android:theme="@style/AppTheme">
 
     <ImageView
         android:id="@+id/imageView"
@@ -16,13 +17,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/Aubie" />
+        app:srcCompat="@drawable/aubie" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/Meteora"
+        android:fontFamily="@font/meteora"
         android:text="Copy Aubie"
         android:textColor="@android:color/black"
         android:textSize="42sp"

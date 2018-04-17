@@ -9,27 +9,26 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="197dp"
-        android:layout_height="135dp"
+        android:layout_width="212dp"
+        android:layout_height="153dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/Aubie"
-        tools:layout_editor_absoluteY="57dp" />
+        app:srcCompat="@drawable/aubie"
+        tools:layout_editor_absoluteY="39dp" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:fontFamily="@font/Meteora"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:fontFamily="@font/meteora"
         android:text="Copy Aubie"
         android:textColor="#171972"
         android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="192dp" />
 
@@ -51,11 +50,11 @@
         android:textColor="#171972"
         android:padding="18dp"
         android:textSize="16sp"
-        android:fontFamily="@font/Meteora"
+        android:fontFamily="@font/meteora"
         android:background="@drawable/orange_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/horiz_guide"
+        app:layout_constraintTop_toTopOf="@+id/horiz_guide" />
 
     <Button
         android:id="@+id/options"
@@ -63,7 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:background="@drawable/orange_button"
-        android:fontFamily="@font/Meteora"
+        android:fontFamily="@font/meteora"
         android:padding="18dp"
         android:text="Options"
         android:textColor="#171972"

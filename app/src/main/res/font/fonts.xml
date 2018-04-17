@@ -3,5 +3,5 @@
     <font
         android:fontStyle="normal"
         android:fontWeight="400"
-        android:font="@font/Meteora" />
+        android:font="@font/meteora" />
 </font-family>

@@ -8,24 +8,44 @@
     android:background="#EFEAEF">
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/aubie_win"
         android:layout_width="228dp"
         android:layout_height="223dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.102"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.802"
-        app:srcCompat="@drawable/Aubie" />
+        app:layout_constraintVertical_bias="0.543"
+        app:srcCompat="@drawable/aubie" />
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/comment_win"
+        android:layout_width="187dp"
+        android:layout_height="135dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="104dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/comment" />
+
+    <TextView
+        android:id="@+id/congrats"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="32dp"
+        android:fontFamily="@font/meteora"
+        android:text="Congratulations,\n\t\t You WON!"
+        android:textColor="#ffffff"
+        android:textSize="18sp"
+        app:layout_constraintHorizontal_bias="0.929"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:srcCompat="@drawable/Comment"
-        tools:layout_editor_absoluteY="145dp" />
+        tools:layout_editor_absoluteY="117dp" />
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text=""
+        android:background="@android:color/transparent"/>
 </android.support.constraint.ConstraintLayout>
