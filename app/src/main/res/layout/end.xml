@@ -46,12 +46,12 @@
         android:id="@+id/high_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="28dp"
         android:layout_marginLeft="16dp"
         android:fontFamily="@font/meteora"
-        android:text="Highest Streak:"
-        android:textSize="32sp"
+        android:text="High Score:"
         android:textColor="#171972"
+        android:textSize="32sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -59,24 +59,24 @@
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="24dp"
         android:fontFamily="@font/meteora"
         android:textColor="#ee8f19"
         android:textSize="32sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="293dp" />
+        tools:layout_editor_absoluteX="223dp" />
 
     <TextView
         android:id="@+id/your_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
+        android:layout_marginLeft="112dp"
         android:fontFamily="@font/meteora"
-        android:text="Current Streak:"
+        android:text="Score:"
         android:textColor="#171972"
-        android:textSize="31.75sp"
+        android:textSize="32sp"
         app:layout_constraintLeft_toLeftOf="parent"
-        tools:layout_editor_absoluteY="455dp" />
+        tools:layout_editor_absoluteY="442dp" />
 
     <EditText
 
@@ -85,8 +85,8 @@
         android:fontFamily="@font/meteora"
         android:textColor="#ee8f19"
         android:textSize="32sp"
-        tools:layout_editor_absoluteX="293dp"
-        tools:layout_editor_absoluteY="434dp" />
+        tools:layout_editor_absoluteX="223dp"
+        tools:layout_editor_absoluteY="421dp" />
 
     <Button
         android:id="@+id/button"
