@@ -15,9 +15,8 @@
         android:layout_marginBottom="8dp"
         android:layout_marginRight="8dp"
         android:background="@drawable/upper_left_button"
-        android:padding="32dp"
         app:layout_constraintBottom_toBottomOf="@+id/horiz_guide"
-        app:layout_constraintRight_toLeftOf="@+id/vert_guide" />
+        app:layout_constraintRight_toLeftOf="@+id/vert_guide"/>
 
     <Button
         android:id="@+id/blue"

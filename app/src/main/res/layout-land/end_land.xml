@@ -34,13 +34,60 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/meteora"
-        android:text="Are you ready\n   to begin?"
+        android:text="\t\t\t  You Lost!\n\n  You can always\n\t\t\t\ttry again!"
         android:textColor="#ffffff"
         android:textSize="18sp"
-        app:layout_constraintHorizontal_bias="0.775"
+        app:layout_constraintHorizontal_bias="0.777"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        tools:layout_editor_absoluteY="59dp" />
+        tools:layout_editor_absoluteY="41dp" />
+
+    <TextView
+        android:id="@+id/high_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="264dp"
+        android:layout_marginLeft="16dp"
+        android:fontFamily="@font/meteora"
+        android:text="High Score:"
+        android:textColor="#171972"
+        android:textSize="26sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <EditText
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/meteora"
+        android:textColor="#ee8f19"
+        android:textSize="26sp"
+        tools:layout_editor_absoluteX="181dp"
+        tools:layout_editor_absoluteY="54dp" />
+
+    <TextView
+        android:id="@+id/your_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/meteora"
+        android:text="Score:"
+        android:textColor="#171972"
+        android:textSize="26sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/meteora"
+        android:textColor="#ee8f19"
+        android:textSize="26sp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="101dp" />
 
     <Button
         android:id="@+id/button"

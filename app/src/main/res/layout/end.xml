@@ -34,18 +34,66 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/meteora"
-        android:text="Congratulations!"
+        android:text="\t\t\tYou Lost!\n\nYou can always\n\t\t\ttry again!"
         android:textColor="#ffffff"
         android:textSize="18sp"
-        app:layout_constraintHorizontal_bias="0.929"
+        app:layout_constraintHorizontal_bias="0.928"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        tools:layout_editor_absoluteY="117dp" />
+        tools:layout_editor_absoluteY="118dp" />
+
+    <TextView
+        android:id="@+id/high_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:fontFamily="@font/meteora"
+        android:text="Highest Streak:"
+        android:textSize="32sp"
+        android:textColor="#171972"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <EditText
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/meteora"
+        android:textColor="#ee8f19"
+        android:textSize="32sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="293dp" />
+
+    <TextView
+        android:id="@+id/your_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:fontFamily="@font/meteora"
+        android:text="Current Streak:"
+        android:textColor="#171972"
+        android:textSize="31.75sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:layout_editor_absoluteY="455dp" />
+
+    <EditText
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/meteora"
+        android:textColor="#ee8f19"
+        android:textSize="32sp"
+        tools:layout_editor_absoluteX="293dp"
+        tools:layout_editor_absoluteY="434dp" />
 
     <Button
         android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/transparent"
         android:text=""
-        android:background="@android:color/transparent"/>
+        tools:layout_editor_absoluteX="278dp"
+        tools:layout_editor_absoluteY="433dp" />
 </android.support.constraint.ConstraintLayout>
