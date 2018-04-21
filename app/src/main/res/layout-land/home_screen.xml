@@ -18,7 +18,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/aubie" />
+        android:src="@drawable/aubie" />
 
     <TextView
         android:id="@+id/textView"
@@ -30,6 +30,7 @@
         android:textSize="32sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageView2"
         tools:layout_editor_absoluteY="142dp" />
 
     <android.support.constraint.Guideline
