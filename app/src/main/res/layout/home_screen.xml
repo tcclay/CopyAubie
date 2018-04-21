@@ -13,10 +13,11 @@
         android:layout_height="153dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/aubie"
-        tools:layout_editor_absoluteY="39dp" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/aubie" />
 
     <TextView
         android:id="@+id/textView"
@@ -24,13 +25,14 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/meteora"
         android:text="Copy Aubie"
         android:textColor="#171972"
         android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="192dp" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <android.support.constraint.Guideline
         android:id="@+id/horiz_guide"

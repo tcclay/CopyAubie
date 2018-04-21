@@ -12,6 +12,7 @@
         android:layout_width="180dp"
         android:layout_height="118dp"
         android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -29,7 +30,7 @@
         android:textSize="32sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        tools:layout_editor_absoluteY="130dp" />
+        tools:layout_editor_absoluteY="142dp" />
 
     <android.support.constraint.Guideline
         android:id="@+id/horiz_guide"
