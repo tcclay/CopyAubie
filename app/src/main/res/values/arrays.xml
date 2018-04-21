@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="difficultyLevels">
+        <item name="beginner">Beginner</item>
+        <item name="moderate">Moderate</item>
+        <item name="difficult">Difficult</item>
+    </string-array>
+
+    <string-array name="difficultyLevelsValues">
+        <item name="beginner">800</item>
+        <item name="moderate">500</item>
+        <item name="difficult">300</item>
+    </string-array>
+</resources>

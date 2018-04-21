@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Copy Aubie</string>
+    <string name="pref_difficulty">Difficulty</string>
+    <string name="pref_difficulty_summary">Set the difficulty of the game.</string>
+    <string name="pref_sound">Sound</string>
+    <string name="pref_sound_summary">Enable or disable sound.</string>
 </resources>

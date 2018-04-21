@@ -1,19 +1,16 @@
 package com.bignerdranch.android.aubiesays;
 
-import android.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.preference.PreferenceFragment;
 
 /**
  * Created by Lawrence-S on 4/21/2018.
  */
 
-public class OptionsFragment extends Fragment {
+public class OptionsFragment extends PreferenceFragment {
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.options, container, false);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        addPreferencesFromResource(R.xml.settings);
     }
 }

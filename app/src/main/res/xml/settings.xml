@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/pref_sound" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="prefSound"
+            android:summary="@string/pref_sound_summary"
+            android:title="@string/pref_sound" >
+        </CheckBoxPreference>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_difficulty">
+        <ListPreference
+            android:key="prefDifficulty"
+            android:entries="@array/difficultyLevels"
+            android:summary="@string/pref_difficulty_summary"
+            android:entryValues="@array/difficultyLevelsValues"
+            android:title="@string/pref_difficulty"
+            android:defaultValue="800"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>

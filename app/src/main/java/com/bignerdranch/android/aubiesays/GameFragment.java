@@ -12,8 +12,19 @@ import android.view.ViewGroup;
 
 public class GameFragment extends Fragment {
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            // restore variables from Bundle
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        /*if (mSequence == null) {
+            // initialize variables
+        } */
         return inflater.inflate(R.layout.game, container, false);
     }
 }
