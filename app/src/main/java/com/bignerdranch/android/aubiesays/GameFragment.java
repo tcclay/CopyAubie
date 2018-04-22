@@ -43,11 +43,27 @@ public class GameFragment extends Fragment {
     }
 
     public void activateButton(int buttonId) {
-        // TODO implement this
+        /* TODO implement this
+         * We need to flash the button/show aubie on the button and
+         * play the sound for a period shorter than the difficulty delay
+         */
     }
 
     public void disableButtons() {
-        // TODO implement this
+        /* TODO implement this
+         * We need to set the OnClickListener for each button
+         * to be null.
+         */
+    }
+
+    public void enableButtons() {
+        /* TODO implement this
+         * Each OnClickListener needs to verify if the button is correct and
+         * then increment the current index. Finally, if the pressed button
+         * is the last one in the sequence, we need to show the user that
+         * they entered a sequence correctly, extend the sequence, then play
+         * the sequence.
+         */
     }
 
     public void playSequence() {
@@ -65,6 +81,15 @@ public class GameFragment extends Fragment {
                 @Override
                 public void run() {
                     activateButton(id);
+                }
+            }, index * speed);
+
+            index++;
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    enableButtons();
                 }
             }, index * speed);
         }
