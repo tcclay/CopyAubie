@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-public class MainActivity extends Activity implements MenuFragment.MenuListener, GameFragment.ScoreListener, FragmentManager.OnBackStackChangedListener {
+public class MainActivity extends Activity implements MenuFragment.MenuListener, GameFragment.ScoreListener {
 
     private static final String TAG = "MainActivity";
 
@@ -78,9 +78,5 @@ public class MainActivity extends Activity implements MenuFragment.MenuListener,
 
         // Commit transaction
         transaction.commit();
-    }
-
-    public void onBackStackChanged() {
-        FragmentManager manager = getFragmentManager();
     }
 }
