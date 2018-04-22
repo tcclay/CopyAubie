@@ -1,7 +1,9 @@
 package com.bignerdranch.android.aubiesays;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -10,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -20,6 +23,8 @@ import java.util.ArrayList;
 public class GameFragment extends Fragment {
 
     private static final int[] BUTTON_IDS = {R.id.blue, R.id.red, R.id.green, R.id.yellow};
+    private static final double ACTIVATE_PERCENT = 0.8;
+    private static final String TAG = "GameFragment";
 
     private Sequence mSequence;
     private int mCurrentIndex;
@@ -42,18 +47,44 @@ public class GameFragment extends Fragment {
         return inflater.inflate(R.layout.game, container, false);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        playSequence();
+    }
+
     public void activateButton(int buttonId) {
         /* TODO implement this
          * We need to flash the button/show aubie on the button and
          * play the sound for a period shorter than the difficulty delay
          */
+
+        /* TODO change later
+         * for now just making activated button black
+         */
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        int speed = Integer.parseInt(sharedPrefs.getString("prefDifficulty", "NULL"));
+
+        final Button b = (Button) getView().findViewById(buttonId);
+        final Drawable d = b.getBackground();
+        b.setBackground(getResources().getDrawable(R.drawable.aubie, getContext().getTheme()));
+        b.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                b.setBackground(d);
+            }
+        }, (long) (speed * ACTIVATE_PERCENT));
     }
 
     public void disableButtons() {
-        /* TODO implement this
+        /*
          * We need to set the OnClickListener for each button
          * to be null.
          */
+        for (int i : BUTTON_IDS) {
+            ((Button) getView().findViewById(i)).setOnClickListener(null);
+        }
     }
 
     public void enableButtons() {
@@ -64,6 +95,37 @@ public class GameFragment extends Fragment {
          * they entered a sequence correctly, extend the sequence, then play
          * the sequence.
          */
+
+        Button.OnClickListener buttonListener = new Button.OnClickListener(){
+            public void onClick(View v) {
+                Log.d(TAG, "View ID: " + v.getId());
+                Log.d(TAG, "Current Index: " + mCurrentIndex);
+                Log.d(TAG, "Verify: " + mSequence.verify(v.getId(), mCurrentIndex));
+                if (mSequence.verify(v.getId(), mCurrentIndex)) {
+                    mCurrentIndex++;
+                    if (mCurrentIndex == mSequence.getSize()) {
+                        mCurrentIndex = 0;
+                        mSequence.extend();
+                        playSequence();
+                    }
+                }
+                else {
+                    ScoreFragment newFragment = new ScoreFragment();
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                    transaction.replace(R.id.fragment_container, newFragment);
+
+                    // Commit transaction
+                    transaction.commit();
+                }
+
+            }
+        };
+
+        for (int i : BUTTON_IDS) {
+            Log.d(TAG, "Button ID: " + i);
+            ((Button) getView().findViewById(i)).setOnClickListener(buttonListener);
+        }
     }
 
     public void playSequence() {
