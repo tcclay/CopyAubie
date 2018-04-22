@@ -25,6 +25,7 @@ public class GameFragment extends Fragment {
     private static final int[] BUTTON_IDS = {R.id.blue, R.id.red, R.id.green, R.id.yellow};
     private static final double ACTIVATE_PERCENT = 0.8;
     private static final String TAG = "GameFragment";
+    public static final String SCORE_KEY = "score";
 
     private Sequence mSequence;
     private int mCurrentIndex;
@@ -112,6 +113,9 @@ public class GameFragment extends Fragment {
                 else {
                     ScoreFragment newFragment = new ScoreFragment();
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                    Bundle args = new Bundle();
+                    args.putInt(SCORE_KEY, mSequence.getSize() - 1);
+                    newFragment.setArguments(args);
 
                     transaction.replace(R.id.fragment_container, newFragment);
 
