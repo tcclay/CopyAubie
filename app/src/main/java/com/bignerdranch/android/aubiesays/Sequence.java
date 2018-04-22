@@ -15,6 +15,7 @@ public class Sequence {
     public Sequence(int[] ids) {
         mButtonIds = ids;
         mCurrentSequence = new ArrayList<Integer>();
+        extend();
     }
 
     public void extend() {
@@ -24,5 +25,13 @@ public class Sequence {
 
     public boolean verify(int buttonId, int index) {
         return buttonId == mCurrentSequence.get(index);
+    }
+
+    public int getSize() {
+        return mCurrentSequence.size();
+    }
+
+    public ArrayList<Integer> getSequence() {
+        return mCurrentSequence;
     }
 }

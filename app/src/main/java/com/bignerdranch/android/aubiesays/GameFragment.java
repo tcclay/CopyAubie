@@ -1,10 +1,17 @@
 package com.bignerdranch.android.aubiesays;
 
 import android.app.Fragment;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
+import java.util.ArrayList;
 
 /**
  * Created by Lawrence-S on 4/21/2018.
@@ -34,4 +41,34 @@ public class GameFragment extends Fragment {
         }
         return inflater.inflate(R.layout.game, container, false);
     }
+
+    public void activateButton(int buttonId) {
+        // TODO implement this
+    }
+
+    public void disableButtons() {
+        // TODO implement this
+    }
+
+    public void playSequence() {
+        disableButtons();
+        ArrayList<Integer> buttons = mSequence.getSequence();
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        int speed = Integer.parseInt(sharedPrefs.getString("prefDifficulty", "NULL"));
+
+
+        int index = 0;
+        for (Integer i : buttons) {
+            Button b = getView().findViewById((int) i);
+            final int id = i;
+            b.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    activateButton(id);
+                }
+            }, index * speed);
+        }
+    }
+
+
 }
