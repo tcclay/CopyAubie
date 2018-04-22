@@ -19,7 +19,7 @@ public class ScoreFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Bundle args = getArguments();
-        score = args.getInt(GameFragment.SCORE_KEY);
+        score = args.getInt(MainActivity.SCORE_KEY);
         return inflater.inflate(R.layout.end, container, false);
     }
 

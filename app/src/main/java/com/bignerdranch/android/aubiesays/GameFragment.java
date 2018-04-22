@@ -1,5 +1,6 @@
 package com.bignerdranch.android.aubiesays;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
@@ -25,10 +26,15 @@ public class GameFragment extends Fragment {
     private static final int[] BUTTON_IDS = {R.id.blue, R.id.red, R.id.green, R.id.yellow};
     private static final double ACTIVATE_PERCENT = 0.8;
     private static final String TAG = "GameFragment";
-    public static final String SCORE_KEY = "score";
 
     private Sequence mSequence;
     private int mCurrentIndex;
+    private Handler mHandler;
+    private ScoreListener mCallback;
+
+    public interface ScoreListener {
+        public void onShowScore(int score);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,6 +42,7 @@ public class GameFragment extends Fragment {
         if (savedInstanceState != null) {
             // restore variables from Bundle
         }
+        mHandler = new Handler();
     }
 
     @Override
@@ -49,9 +56,32 @@ public class GameFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        try {
+            mCallback = (ScoreListener) activity;
+        }
+        catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement ScoreListener");
+        }
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
         playSequence();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        for (int i : BUTTON_IDS) {
+            Button b = getView().findViewById((int) i);
+            b.getHandler().removeCallbacksAndMessages(null);
+        }
+        mHandler.removeCallbacksAndMessages(null);
     }
 
     public void activateButton(int buttonId) {
@@ -111,16 +141,7 @@ public class GameFragment extends Fragment {
                     }
                 }
                 else {
-                    ScoreFragment newFragment = new ScoreFragment();
-                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                    Bundle args = new Bundle();
-                    args.putInt(SCORE_KEY, mSequence.getSize() - 1);
-                    newFragment.setArguments(args);
-
-                    transaction.replace(R.id.fragment_container, newFragment);
-
-                    // Commit transaction
-                    transaction.commit();
+                    mCallback.onShowScore(mSequence.getSize() - 1);
                 }
 
             }
@@ -152,7 +173,7 @@ public class GameFragment extends Fragment {
 
             index++;
 
-            new Handler().postDelayed(new Runnable() {
+            mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     enableButtons();
@@ -160,6 +181,4 @@ public class GameFragment extends Fragment {
             }, index * speed);
         }
     }
-
-
 }
