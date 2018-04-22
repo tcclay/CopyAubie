@@ -11,6 +11,12 @@ import android.view.ViewGroup;
  */
 
 public class GameFragment extends Fragment {
+
+    private static final int[] BUTTON_IDS = {R.id.blue, R.id.red, R.id.green, R.id.yellow};
+
+    private Sequence mSequence;
+    private int mCurrentIndex;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,9 +28,10 @@ public class GameFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        /*if (mSequence == null) {
-            // initialize variables
-        } */
+        if (mSequence == null) {
+            mSequence = new Sequence(BUTTON_IDS);
+            mCurrentIndex = 0;
+        }
         return inflater.inflate(R.layout.game, container, false);
     }
 }
