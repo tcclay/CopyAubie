@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
+import android.content.res.AssetFileDescriptor;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,6 +17,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.util.Log;
 
+import java.io.FileDescriptor;
+import java.io.IOError;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -84,7 +89,7 @@ public class GameFragment extends Fragment {
         mHandler.removeCallbacksAndMessages(null);
     }
 
-    public void activateButton(int buttonId) {
+    public void activateButton(int buttonId) throws IOException {
         /* TODO implement this
          * We need to flash the button/show aubie on the button and
          * play the sound for a period shorter than the difficulty delay
@@ -97,6 +102,32 @@ public class GameFragment extends Fragment {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         int speed = Integer.parseInt(sharedPrefs.getString("prefDifficulty", "NULL"));
 
+        AssetFileDescriptor soundFile;
+
+        switch (buttonId) {
+            case R.id.blue:
+                soundFile = getContext().getAssets().openFd("E4.wav");
+                break;
+            case R.id.red:
+                soundFile = getContext().getAssets().openFd("A4.wav");
+                break;
+            case R.id.green:
+                soundFile = getContext().getAssets().openFd("E3.wav");
+                break;
+            case R.id.yellow:
+                soundFile = getContext().getAssets().openFd("C4#.wav");
+                break;
+            default:
+                soundFile = getContext().getAssets().openFd("C4#.wav");
+                break;
+        }
+
+        final MediaPlayer soundPlayer = new MediaPlayer();
+        soundPlayer.setDataSource(soundFile.getFileDescriptor(), soundFile.getStartOffset(), soundFile.getDeclaredLength());
+        soundPlayer.prepareAsync();
+        soundPlayer.setLooping(true);
+        soundPlayer.start();
+
         final Button b = (Button) getView().findViewById(buttonId);
         final Drawable d = b.getBackground();
         b.setBackground(getResources().getDrawable(R.drawable.aubie, getContext().getTheme()));
@@ -104,6 +135,7 @@ public class GameFragment extends Fragment {
             @Override
             public void run() {
                 b.setBackground(d);
+                soundPlayer.stop();
             }
         }, (long) (speed * ACTIVATE_PERCENT));
     }
@@ -114,7 +146,7 @@ public class GameFragment extends Fragment {
          * to be null.
          */
         for (int i : BUTTON_IDS) {
-            ((Button) getView().findViewById(i)).setOnClickListener(null);
+            ((Button) getView().findViewById(i)).setClickable(false);
         }
     }
 
@@ -129,9 +161,9 @@ public class GameFragment extends Fragment {
 
         Button.OnClickListener buttonListener = new Button.OnClickListener(){
             public void onClick(View v) {
-                Log.d(TAG, "View ID: " + v.getId());
-                Log.d(TAG, "Current Index: " + mCurrentIndex);
-                Log.d(TAG, "Verify: " + mSequence.verify(v.getId(), mCurrentIndex));
+                //Log.d(TAG, "View ID: " + v.getId());
+                //Log.d(TAG, "Current Index: " + mCurrentIndex);
+                //Log.d(TAG, "Verify: " + mSequence.verify(v.getId(), mCurrentIndex));
                 if (mSequence.verify(v.getId(), mCurrentIndex)) {
                     mCurrentIndex++;
                     if (mCurrentIndex == mSequence.getSize()) {
@@ -148,7 +180,7 @@ public class GameFragment extends Fragment {
         };
 
         for (int i : BUTTON_IDS) {
-            Log.d(TAG, "Button ID: " + i);
+            //Log.d(TAG, "Button ID: " + i);
             ((Button) getView().findViewById(i)).setOnClickListener(buttonListener);
         }
     }
@@ -157,17 +189,24 @@ public class GameFragment extends Fragment {
         disableButtons();
         ArrayList<Integer> buttons = mSequence.getSequence();
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        int speed = Integer.parseInt(sharedPrefs.getString("prefDifficulty", "NULL"));
+        int speed = Integer.parseInt(sharedPrefs.getString("prefDifficulty", "800"));
 
 
         int index = 0;
         for (Integer i : buttons) {
             Button b = getView().findViewById((int) i);
             final int id = i;
+            final int sequenceIndex = index;
             b.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    activateButton(id);
+                    Log.d(TAG, "Showing button " + sequenceIndex + " in sequence.");
+                    try {
+                        activateButton(id);
+                    }
+                    catch (IOException e) {
+                        Log.d(TAG, "Error reading sound file");
+                    }
                 }
             }, index * speed);
 
@@ -176,6 +215,7 @@ public class GameFragment extends Fragment {
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    Log.d(TAG, "Enabling buttons now");
                     enableButtons();
                 }
             }, index * speed);
