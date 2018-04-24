@@ -36,6 +36,10 @@ public class GameFragment extends Fragment {
     private int mCurrentIndex;
     private Handler mHandler;
     private ScoreListener mCallback;
+    private final MediaPlayer mBlueSound = new MediaPlayer();
+    private final MediaPlayer mRedSound = new MediaPlayer();
+    private final MediaPlayer mGreenSound = new MediaPlayer();
+    private final MediaPlayer mYellowSound = new MediaPlayer();
 
     public interface ScoreListener {
         public void onShowScore(int score);
@@ -76,6 +80,14 @@ public class GameFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        for (int buttonId : BUTTON_IDS) {
+            try {
+                setSoundPlayer(buttonId);
+            }
+            catch (IOException e) {
+                Log.d(TAG, "Error reading sound file");
+            }
+        }
         playSequence();
     }
 
@@ -87,6 +99,32 @@ public class GameFragment extends Fragment {
             b.getHandler().removeCallbacksAndMessages(null);
         }
         mHandler.removeCallbacksAndMessages(null);
+    }
+
+    public void setSoundPlayer(int buttonId) throws IOException {
+        AssetFileDescriptor soundFile;
+
+        switch (buttonId) {
+            case R.id.blue:
+                soundFile = getContext().getAssets().openFd("E4.wav");
+                mBlueSound.setDataSource(soundFile.getFileDescriptor(), soundFile.getStartOffset(), soundFile.getDeclaredLength());
+                break;
+            case R.id.red:
+                soundFile = getContext().getAssets().openFd("A4.wav");
+                mRedSound.setDataSource(soundFile.getFileDescriptor(), soundFile.getStartOffset(), soundFile.getDeclaredLength());
+                break;
+            case R.id.green:
+                soundFile = getContext().getAssets().openFd("E3.wav");
+                mGreenSound.setDataSource(soundFile.getFileDescriptor(), soundFile.getStartOffset(), soundFile.getDeclaredLength());
+                break;
+            case R.id.yellow:
+                soundFile = getContext().getAssets().openFd("C4#.wav");
+                mYellowSound.setDataSource(soundFile.getFileDescriptor(), soundFile.getStartOffset(), soundFile.getDeclaredLength());
+                break;
+            default:
+                soundFile = getContext().getAssets().openFd("C4#.wav");
+                break;
+        }
     }
 
     public void activateButton(int buttonId) throws IOException {
@@ -101,43 +139,77 @@ public class GameFragment extends Fragment {
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         int speed = Integer.parseInt(sharedPrefs.getString("prefDifficulty", "NULL"));
-
-        AssetFileDescriptor soundFile;
+        final Button b;
+        final Drawable d;
 
         switch (buttonId) {
             case R.id.blue:
-                soundFile = getContext().getAssets().openFd("E4.wav");
+                mBlueSound.prepare();
+                mBlueSound.setLooping(true);
+                mBlueSound.start();
+
+                b = (Button) getView().findViewById(buttonId);
+                d = b.getBackground();
+                b.setBackground(getResources().getDrawable(R.drawable.aubie, getContext().getTheme()));
+                b.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        b.setBackground(d);
+                        mBlueSound.stop();
+                    }
+                }, (long) (speed * ACTIVATE_PERCENT));
                 break;
             case R.id.red:
-                soundFile = getContext().getAssets().openFd("A4.wav");
+                mRedSound.prepare();
+                mRedSound.setLooping(true);
+                mRedSound.start();
+
+                b = (Button) getView().findViewById(buttonId);
+                d = b.getBackground();
+                b.setBackground(getResources().getDrawable(R.drawable.aubie, getContext().getTheme()));
+                b.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        b.setBackground(d);
+                        mRedSound.stop();
+                    }
+                }, (long) (speed * ACTIVATE_PERCENT));
                 break;
             case R.id.green:
-                soundFile = getContext().getAssets().openFd("E3.wav");
+                mGreenSound.prepare();
+                mGreenSound.setLooping(true);
+                mGreenSound.start();
+
+                b = (Button) getView().findViewById(buttonId);
+                d = b.getBackground();
+                b.setBackground(getResources().getDrawable(R.drawable.aubie, getContext().getTheme()));
+                b.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        b.setBackground(d);
+                        mGreenSound.stop();
+                    }
+                }, (long) (speed * ACTIVATE_PERCENT));
                 break;
             case R.id.yellow:
-                soundFile = getContext().getAssets().openFd("C4#.wav");
+                mYellowSound.prepare();
+                mYellowSound.setLooping(true);
+                mYellowSound.start();
+
+                b = (Button) getView().findViewById(buttonId);
+                d = b.getBackground();
+                b.setBackground(getResources().getDrawable(R.drawable.aubie, getContext().getTheme()));
+                b.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        b.setBackground(d);
+                        mYellowSound.stop();
+                    }
+                }, (long) (speed * ACTIVATE_PERCENT));
                 break;
             default:
-                soundFile = getContext().getAssets().openFd("C4#.wav");
                 break;
         }
-
-        final MediaPlayer soundPlayer = new MediaPlayer();
-        soundPlayer.setDataSource(soundFile.getFileDescriptor(), soundFile.getStartOffset(), soundFile.getDeclaredLength());
-        soundPlayer.prepareAsync();
-        soundPlayer.setLooping(true);
-        soundPlayer.start();
-
-        final Button b = (Button) getView().findViewById(buttonId);
-        final Drawable d = b.getBackground();
-        b.setBackground(getResources().getDrawable(R.drawable.aubie, getContext().getTheme()));
-        b.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                b.setBackground(d);
-                soundPlayer.stop();
-            }
-        }, (long) (speed * ACTIVATE_PERCENT));
     }
 
     public void disableButtons() {
