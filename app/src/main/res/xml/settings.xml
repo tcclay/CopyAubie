@@ -17,7 +17,7 @@
             android:summary="@string/pref_difficulty_summary"
             android:entryValues="@array/difficultyLevelsValues"
             android:title="@string/pref_difficulty"
-            android:defaultValue="800"/>
+            android:defaultValue="Beginner"/>
     </PreferenceCategory>
 
 </PreferenceScreen>
