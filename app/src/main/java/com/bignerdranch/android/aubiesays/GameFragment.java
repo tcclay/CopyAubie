@@ -285,6 +285,7 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
                         }
 
                         if (mCurrentIndex == mSequence.getSize()) {
+                            setButtonsEnabled(false);
                             mCurrentIndex = 0;
                             mSequence.extend();
                             mHandler.postDelayed(new Runnable() {
