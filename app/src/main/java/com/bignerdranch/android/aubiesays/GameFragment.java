@@ -163,12 +163,11 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
                 mBlueSound.setLooping(true);
 
                 b = (Button) getView().findViewById(buttonId);
-                d = b.getBackground();
                 b.setBackground(getResources().getDrawable(R.drawable.upper_right_button_active, getContext().getTheme()));
                 b.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        b.setBackground(d);
+                        b.setBackground(getResources().getDrawable(R.drawable.upper_right_button, getContext().getTheme()));
                         mBlueSound.stop();
                     }
                 }, (long) (speed * ACTIVATE_PERCENT));
@@ -178,12 +177,11 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
                 mRedSound.setLooping(true);
 
                 b = (Button) getView().findViewById(buttonId);
-                d = b.getBackground();
                 b.setBackground(getResources().getDrawable(R.drawable.upper_left_button_active, getContext().getTheme()));
                 b.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        b.setBackground(d);
+                        b.setBackground(getResources().getDrawable(R.drawable.upper_left_button, getContext().getTheme()));
                         mRedSound.stop();
                     }
                 }, (long) (speed * ACTIVATE_PERCENT));
@@ -193,12 +191,11 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
                 mGreenSound.setLooping(true);
 
                 b = (Button) getView().findViewById(buttonId);
-                d = b.getBackground();
                 b.setBackground(getResources().getDrawable(R.drawable.lower_left_button_active, getContext().getTheme()));
                 b.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        b.setBackground(d);
+                        b.setBackground(getResources().getDrawable(R.drawable.lower_left_button, getContext().getTheme()));
                         mGreenSound.stop();
                     }
                 }, (long) (speed * ACTIVATE_PERCENT));
@@ -208,12 +205,11 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
                 mYellowSound.setLooping(true);
 
                 b = (Button) getView().findViewById(buttonId);
-                d = b.getBackground();
                 b.setBackground(getResources().getDrawable(R.drawable.lower_right_button_active, getContext().getTheme()));
                 b.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        b.setBackground(d);
+                        b.setBackground(getResources().getDrawable(R.drawable.lower_right_button, getContext().getTheme()));
                         mYellowSound.stop();
                     }
                 }, (long) (speed * ACTIVATE_PERCENT));
@@ -247,40 +243,37 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
                 //Log.d(TAG, "View ID: " + v.getId());
                 //Log.d(TAG, "Current Index: " + mCurrentIndex);
                 //Log.d(TAG, "Verify: " + mSequence.verify(v.getId(), mCurrentIndex));
-
                 int theId = v.getId();
-                if (e.getAction() == MotionEvent.ACTION_DOWN) {
+                if (e.getAction() == MotionEvent.ACTION_UP) {
                     if (mSequence.verify(theId, mCurrentIndex)) {
                         mCurrentIndex++;
+
+                        switch (v.getId()) {
+                            case R.id.blue:
+                                mBlueSound.setLooping(true);
+                                mBlueSound.stop();
+                                v.setBackground(getResources().getDrawable(R.drawable.upper_right_button, getContext().getTheme()));
+                                break;
+                            case R.id.red:
+                                mRedSound.setLooping(true);
+                                mRedSound.stop();
+                                v.setBackground(getResources().getDrawable(R.drawable.upper_left_button, getContext().getTheme()));
+                                break;
+                            case R.id.green:
+                                mGreenSound.setLooping(true);
+                                mGreenSound.stop();
+                                v.setBackground(getResources().getDrawable(R.drawable.lower_left_button, getContext().getTheme()));
+                                break;
+                            case R.id.yellow:
+                                mYellowSound.setLooping(true);
+                                mYellowSound.stop();
+                                v.setBackground(getResources().getDrawable(R.drawable.lower_right_button, getContext().getTheme()));
+                                break;
+                        }
+
                         if (mCurrentIndex == mSequence.getSize()) {
                             try {
                                 SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-                                int speed = Integer.parseInt(sharedPrefs.getString("prefDifficulty", "NULL"));
-                                final Button b;
-                                final Drawable d;
-
-                                switch (v.getId()) {
-                                    case R.id.blue:
-                                        mBlueSound.setLooping(true);
-                                        mBlueSound.prepareAsync();
-                                        v.setBackground(getResources().getDrawable(R.drawable.upper_right_button_active, getContext().getTheme()));
-                                        break;
-                                    case R.id.red:
-                                        mRedSound.setLooping(true);
-                                        mRedSound.prepareAsync();
-                                        v.setBackground(getResources().getDrawable(R.drawable.upper_left_button, getContext().getTheme()));
-                                        break;
-                                    case R.id.green:
-                                        mGreenSound.setLooping(true);
-                                        mGreenSound.prepareAsync();
-                                        v.setBackground(getResources().getDrawable(R.drawable.lower_left_button, getContext().getTheme()));
-                                        break;
-                                    case R.id.yellow:
-                                        mYellowSound.setLooping(true);
-                                        mYellowSound.prepareAsync();
-                                        v.setBackground(getResources().getDrawable(R.drawable.lower_right_button, getContext().getTheme()));
-                                        break;
-                                }
                             } catch (IllegalStateException ise) {
                                 Log.d(TAG, ise.getMessage());
                             } catch (Exception ex) {
@@ -289,19 +282,40 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
                             }
                             mCurrentIndex = 0;
                             mSequence.extend();
-                            playSequence();
+                            mHandler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    playSequence();
+                                }
+                            }, 300);
                         }
                     } else {
                         mCallback.onShowScore(mSequence.getSize() - 1);
                     }
+                    Log.d(TAG, "Action up");
+                    return false;
                 }
-                else if (e.getAction() == MotionEvent.ACTION_UP){
+                else if (e.getAction() == MotionEvent.ACTION_DOWN){
                     switch (v.getId()) {
                         case R.id.blue:
-                            mBlueSound.stop();
-                            v.setBackground(getResources().getDrawable(R.drawable.upper_right_button, getContext().getTheme()));
+                            mBlueSound.prepareAsync();
+                            v.setBackground(getResources().getDrawable(R.drawable.upper_right_button_active, getContext().getTheme()));
+                            break;
+                        case R.id.red:
+                            mRedSound.prepareAsync();
+                            v.setBackground(getResources().getDrawable(R.drawable.upper_left_button_active, getContext().getTheme()));
+                            break;
+                        case R.id.green:
+                            mGreenSound.prepareAsync();
+                            v.setBackground(getResources().getDrawable(R.drawable.lower_left_button_active, getContext().getTheme()));
+                            break;
+                        case R.id.yellow:
+                            mYellowSound.prepareAsync();
+                            v.setBackground(getResources().getDrawable(R.drawable.lower_right_button_active, getContext().getTheme()));
                             break;
                     }
+                    Log.d(TAG, "Action down");
+                    return true;
                 }
 
                 return true;
