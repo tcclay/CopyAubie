@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -26,7 +27,7 @@ import java.util.ArrayList;
  * Created by Lawrence-S on 4/21/2018.
  */
 
-public class GameFragment extends Fragment {
+public class GameFragment extends Fragment implements MediaPlayer.OnPreparedListener {
 
     private static final int[] BUTTON_IDS = {R.id.blue, R.id.red, R.id.green, R.id.yellow};
     private static final double ACTIVATE_PERCENT = 0.8;
@@ -99,6 +100,16 @@ public class GameFragment extends Fragment {
             b.getHandler().removeCallbacksAndMessages(null);
         }
         mHandler.removeCallbacksAndMessages(null);
+
+        mBlueSound.release();
+        mRedSound.release();
+        mGreenSound.release();
+        mYellowSound.release();
+    }
+
+    @Override
+    public void onPrepared(MediaPlayer player) {
+        player.start();
     }
 
     public void setSoundPlayer(int buttonId) throws IOException {
@@ -108,18 +119,22 @@ public class GameFragment extends Fragment {
             case R.id.blue:
                 soundFile = getContext().getAssets().openFd("E4.wav");
                 mBlueSound.setDataSource(soundFile.getFileDescriptor(), soundFile.getStartOffset(), soundFile.getDeclaredLength());
+                mBlueSound.setOnPreparedListener(this);
                 break;
             case R.id.red:
                 soundFile = getContext().getAssets().openFd("A4.wav");
                 mRedSound.setDataSource(soundFile.getFileDescriptor(), soundFile.getStartOffset(), soundFile.getDeclaredLength());
+                mRedSound.setOnPreparedListener(this);
                 break;
             case R.id.green:
                 soundFile = getContext().getAssets().openFd("E3.wav");
                 mGreenSound.setDataSource(soundFile.getFileDescriptor(), soundFile.getStartOffset(), soundFile.getDeclaredLength());
+                mGreenSound.setOnPreparedListener(this);
                 break;
             case R.id.yellow:
                 soundFile = getContext().getAssets().openFd("C4#.wav");
                 mYellowSound.setDataSource(soundFile.getFileDescriptor(), soundFile.getStartOffset(), soundFile.getDeclaredLength());
+                mYellowSound.setOnPreparedListener(this);
                 break;
             default:
                 soundFile = getContext().getAssets().openFd("C4#.wav");
@@ -144,9 +159,8 @@ public class GameFragment extends Fragment {
 
         switch (buttonId) {
             case R.id.blue:
-                mBlueSound.prepare();
+                mBlueSound.prepareAsync();
                 mBlueSound.setLooping(true);
-                mBlueSound.start();
 
                 b = (Button) getView().findViewById(buttonId);
                 d = b.getBackground();
@@ -160,9 +174,8 @@ public class GameFragment extends Fragment {
                 }, (long) (speed * ACTIVATE_PERCENT));
                 break;
             case R.id.red:
-                mRedSound.prepare();
+                mRedSound.prepareAsync();
                 mRedSound.setLooping(true);
-                mRedSound.start();
 
                 b = (Button) getView().findViewById(buttonId);
                 d = b.getBackground();
@@ -176,9 +189,8 @@ public class GameFragment extends Fragment {
                 }, (long) (speed * ACTIVATE_PERCENT));
                 break;
             case R.id.green:
-                mGreenSound.prepare();
+                mGreenSound.prepareAsync();
                 mGreenSound.setLooping(true);
-                mGreenSound.start();
 
                 b = (Button) getView().findViewById(buttonId);
                 d = b.getBackground();
@@ -192,9 +204,8 @@ public class GameFragment extends Fragment {
                 }, (long) (speed * ACTIVATE_PERCENT));
                 break;
             case R.id.yellow:
-                mYellowSound.prepare();
+                mYellowSound.prepareAsync();
                 mYellowSound.setLooping(true);
-                mYellowSound.start();
 
                 b = (Button) getView().findViewById(buttonId);
                 d = b.getBackground();
@@ -231,37 +242,75 @@ public class GameFragment extends Fragment {
          * the sequence.
          */
 
-        Button.OnClickListener buttonListener = new Button.OnClickListener(){
-            public void onClick(View v) {
+        Button.OnTouchListener buttonListener = new Button.OnTouchListener(){
+            public boolean onTouch(View v, MotionEvent e) {
                 //Log.d(TAG, "View ID: " + v.getId());
                 //Log.d(TAG, "Current Index: " + mCurrentIndex);
                 //Log.d(TAG, "Verify: " + mSequence.verify(v.getId(), mCurrentIndex));
 
-                if (mSequence.verify(v.getId(), mCurrentIndex)) {
-                    mCurrentIndex++;
-                    if (mCurrentIndex == mSequence.getSize()) {
+                int theId = v.getId();
+                if (e.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (mSequence.verify(theId, mCurrentIndex)) {
+                        mCurrentIndex++;
+                        if (mCurrentIndex == mSequence.getSize()) {
+                            try {
+                                SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+                                int speed = Integer.parseInt(sharedPrefs.getString("prefDifficulty", "NULL"));
+                                final Button b;
+                                final Drawable d;
 
-                         /* try {
-                            activateButton(v.getId());
-                        } catch (IOException e) {
-                            Log.d(TAG, "Id could not be read from file");
-                        } */
-
-                        mCurrentIndex = 0;
-                        mSequence.extend();
-                        playSequence();
+                                switch (v.getId()) {
+                                    case R.id.blue:
+                                        mBlueSound.setLooping(true);
+                                        mBlueSound.prepareAsync();
+                                        v.setBackground(getResources().getDrawable(R.drawable.upper_right_button_active, getContext().getTheme()));
+                                        break;
+                                    case R.id.red:
+                                        mRedSound.setLooping(true);
+                                        mRedSound.prepareAsync();
+                                        v.setBackground(getResources().getDrawable(R.drawable.upper_left_button, getContext().getTheme()));
+                                        break;
+                                    case R.id.green:
+                                        mGreenSound.setLooping(true);
+                                        mGreenSound.prepareAsync();
+                                        v.setBackground(getResources().getDrawable(R.drawable.lower_left_button, getContext().getTheme()));
+                                        break;
+                                    case R.id.yellow:
+                                        mYellowSound.setLooping(true);
+                                        mYellowSound.prepareAsync();
+                                        v.setBackground(getResources().getDrawable(R.drawable.lower_right_button, getContext().getTheme()));
+                                        break;
+                                }
+                            } catch (IllegalStateException ise) {
+                                Log.d(TAG, ise.getMessage());
+                            } catch (Exception ex) {
+                                Log.d(TAG, "Error reading sound file");
+                                Log.d(TAG, "Error: " + ex.getMessage());
+                            }
+                            mCurrentIndex = 0;
+                            mSequence.extend();
+                            playSequence();
+                        }
+                    } else {
+                        mCallback.onShowScore(mSequence.getSize() - 1);
                     }
                 }
-                else {
-                    mCallback.onShowScore(mSequence.getSize() - 1);
+                else if (e.getAction() == MotionEvent.ACTION_UP){
+                    switch (v.getId()) {
+                        case R.id.blue:
+                            mBlueSound.stop();
+                            v.setBackground(getResources().getDrawable(R.drawable.upper_right_button, getContext().getTheme()));
+                            break;
+                    }
                 }
 
+                return true;
             }
         };
 
         for (int i : BUTTON_IDS) {
             //Log.d(TAG, "Button ID: " + i);
-            ((Button) getView().findViewById(i)).setOnClickListener(buttonListener);
+            ((Button) getView().findViewById(i)).setOnTouchListener(buttonListener);
             ((Button) getView().findViewById(i)).setEnabled(true);
         }
     }

@@ -16,8 +16,9 @@
             android:entries="@array/difficultyLevels"
             android:summary="@string/pref_difficulty_summary"
             android:entryValues="@array/difficultyLevelsValues"
-            android:title="@string/pref_difficulty"
-            android:defaultValue="Beginner"/>
+            android:title="@string/pref_difficulty" >
+
+        </ListPreference>
     </PreferenceCategory>
 
 </PreferenceScreen>
