@@ -117,6 +117,8 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
 
     public void setSoundPlayer(int buttonId) throws IOException {
         AssetFileDescriptor soundFile;
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        boolean enableSound = sharedPrefs.getBoolean("prefSound", true);
 
         switch (buttonId) {
             case R.id.blue:
@@ -142,6 +144,14 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
             default:
                 soundFile = getContext().getAssets().openFd("C4#.wav");
                 break;
+        }
+
+
+        if (!enableSound) {
+            mBlueSound.setVolume(0, 0);
+            mRedSound.setVolume(0, 0);
+            mGreenSound.setVolume(0, 0);
+            mYellowSound.setVolume(0, 0);
         }
     }
 
@@ -275,14 +285,6 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
                         }
 
                         if (mCurrentIndex == mSequence.getSize()) {
-                            try {
-                                SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-                            } catch (IllegalStateException ise) {
-                                Log.d(TAG, ise.getMessage());
-                            } catch (Exception ex) {
-                                Log.d(TAG, "Error reading sound file");
-                                Log.d(TAG, "Error: " + ex.getMessage());
-                            }
                             mCurrentIndex = 0;
                             mSequence.extend();
                             mHandler.postDelayed(new Runnable() {
