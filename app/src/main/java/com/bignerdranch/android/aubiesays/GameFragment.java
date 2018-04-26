@@ -150,7 +150,7 @@ public class GameFragment extends Fragment {
 
                 b = (Button) getView().findViewById(buttonId);
                 d = b.getBackground();
-                b.setBackground(getResources().getDrawable(R.drawable.aubie, getContext().getTheme()));
+                b.setBackground(getResources().getDrawable(R.drawable.upper_right_button_active, getContext().getTheme()));
                 b.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -166,7 +166,7 @@ public class GameFragment extends Fragment {
 
                 b = (Button) getView().findViewById(buttonId);
                 d = b.getBackground();
-                b.setBackground(getResources().getDrawable(R.drawable.aubie, getContext().getTheme()));
+                b.setBackground(getResources().getDrawable(R.drawable.upper_left_button_active, getContext().getTheme()));
                 b.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -182,7 +182,7 @@ public class GameFragment extends Fragment {
 
                 b = (Button) getView().findViewById(buttonId);
                 d = b.getBackground();
-                b.setBackground(getResources().getDrawable(R.drawable.aubie, getContext().getTheme()));
+                b.setBackground(getResources().getDrawable(R.drawable.lower_left_button_active, getContext().getTheme()));
                 b.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -198,7 +198,7 @@ public class GameFragment extends Fragment {
 
                 b = (Button) getView().findViewById(buttonId);
                 d = b.getBackground();
-                b.setBackground(getResources().getDrawable(R.drawable.aubie, getContext().getTheme()));
+                b.setBackground(getResources().getDrawable(R.drawable.lower_right_button_active, getContext().getTheme()));
                 b.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -218,7 +218,7 @@ public class GameFragment extends Fragment {
          * to be null.
          */
         for (int i : BUTTON_IDS) {
-            ((Button) getView().findViewById(i)).setClickable(false);
+            ((Button) getView().findViewById(i)).setEnabled(false);
         }
     }
 
@@ -236,9 +236,17 @@ public class GameFragment extends Fragment {
                 //Log.d(TAG, "View ID: " + v.getId());
                 //Log.d(TAG, "Current Index: " + mCurrentIndex);
                 //Log.d(TAG, "Verify: " + mSequence.verify(v.getId(), mCurrentIndex));
+
                 if (mSequence.verify(v.getId(), mCurrentIndex)) {
                     mCurrentIndex++;
                     if (mCurrentIndex == mSequence.getSize()) {
+
+                         /* try {
+                            activateButton(v.getId());
+                        } catch (IOException e) {
+                            Log.d(TAG, "Id could not be read from file");
+                        } */
+
                         mCurrentIndex = 0;
                         mSequence.extend();
                         playSequence();
@@ -254,6 +262,7 @@ public class GameFragment extends Fragment {
         for (int i : BUTTON_IDS) {
             //Log.d(TAG, "Button ID: " + i);
             ((Button) getView().findViewById(i)).setOnClickListener(buttonListener);
+            ((Button) getView().findViewById(i)).setEnabled(true);
         }
     }
 
@@ -283,14 +292,15 @@ public class GameFragment extends Fragment {
             }, index * speed);
 
             index++;
-
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Log.d(TAG, "Enabling buttons now");
-                    enableButtons();
-                }
-            }, index * speed);
         }
+
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(TAG, "Enabling buttons now");
+                enableButtons();
+            }
+        }, index * speed);
+
     }
 }
