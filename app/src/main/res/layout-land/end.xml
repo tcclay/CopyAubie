@@ -23,30 +23,26 @@
         android:id="@+id/commment_begin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="88dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintBottom_toTopOf="@+id/aubie_begin"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/aubie_begin"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        android:src="@drawable/comment" />
+        android:layout_marginBottom="12dp"
+        android:layout_marginStart="28dp"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        android:src="@drawable/comment"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/guideline" />
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="168dp"
+        android:layout_height="94dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="12dp"
         android:fontFamily="@font/meteora"
         android:text="\t\t\t  You Lost!\n\n  You can always\n\t\t\t\ttry again!"
         android:textColor="#ffffff"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/commment_begin"
-        app:layout_constraintEnd_toEndOf="@+id/commment_begin"
-        app:layout_constraintStart_toStartOf="@+id/commment_begin"
-        app:layout_constraintTop_toTopOf="@+id/commment_begin" />
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/guideline" />
 
     <TextView
         android:id="@+id/high_score"
@@ -79,6 +75,22 @@
         android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/transparent"
         android:text=""
-        android:background="@android:color/transparent"/>
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="397dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="193dp" />
 </android.support.constraint.ConstraintLayout>
