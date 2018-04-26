@@ -89,6 +89,9 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
                 Log.d(TAG, "Error reading sound file");
             }
         }
+
+        initializeButtons();
+
         playSequence();
     }
 
@@ -219,17 +222,17 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
         }
     }
 
-    public void disableButtons() {
+    public void setButtonsEnabled(boolean enable) {
         /*
          * We need to set the OnClickListener for each button
          * to be null.
          */
         for (int i : BUTTON_IDS) {
-            ((Button) getView().findViewById(i)).setEnabled(false);
+            ((Button) getView().findViewById(i)).setEnabled(enable);
         }
     }
 
-    public void enableButtons() {
+    public void initializeButtons() {
         /* TODO implement this
          * Each OnClickListener needs to verify if the button is correct and
          * then increment the current index. Finally, if the pressed button
@@ -330,7 +333,7 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
     }
 
     public void playSequence() {
-        disableButtons();
+        setButtonsEnabled(false);
         ArrayList<Integer> buttons = mSequence.getSequence();
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         int speed = Integer.parseInt(sharedPrefs.getString("prefDifficulty", "800"));
@@ -361,7 +364,7 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
             @Override
             public void run() {
                 Log.d(TAG, "Enabling buttons now");
-                enableButtons();
+                setButtonsEnabled(true);
             }
         }, index * speed);
 
