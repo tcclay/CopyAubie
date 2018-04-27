@@ -34,6 +34,7 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
     private static final double ACTIVATE_PERCENT = 0.8;
     private static final String TAG = "GameFragment";
     private static final int MAX_HINTS = 3;
+    private static final String DEFAULT_SPEED = "800";
 
     // state tags
     private static final String SEQUENCE_TAG = "sequence";
@@ -195,7 +196,7 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
          */
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        int speed = Integer.parseInt(sharedPrefs.getString("prefDifficulty", "NULL"));
+        int speed = Integer.parseInt(sharedPrefs.getString("prefDifficulty", DEFAULT_SPEED));
         final Button b;
         final Drawable d;
 
@@ -399,7 +400,7 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
         setButtonsEnabled(false);
         ArrayList<Integer> buttons = mSequence.getSequence();
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        int speed = Integer.parseInt(sharedPrefs.getString("prefDifficulty", "800"));
+        int speed = Integer.parseInt(sharedPrefs.getString("prefDifficulty", DEFAULT_SPEED));
 
 
         int index = 0;
