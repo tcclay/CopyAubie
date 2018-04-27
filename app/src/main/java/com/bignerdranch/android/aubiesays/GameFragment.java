@@ -29,12 +29,22 @@ import java.util.ArrayList;
 
 public class GameFragment extends Fragment implements MediaPlayer.OnPreparedListener {
 
+    // constants
     private static final int[] BUTTON_IDS = {R.id.blue, R.id.red, R.id.green, R.id.yellow};
     private static final double ACTIVATE_PERCENT = 0.8;
     private static final String TAG = "GameFragment";
 
+    // state tags
+    private static final String SEQUENCE_TAG = "sequence";
+    private static final String INDEX_TAG = "index";
+    private static final String SEQUENCE_INDEX_TAG = "sequence_index";
+
+    // state member variables
     private Sequence mSequence;
     private int mCurrentIndex;
+    private int mSequenceIndex;
+
+    // non-state member variables
     private Handler mHandler;
     private ScoreListener mCallback;
     private final MediaPlayer mBlueSound = new MediaPlayer();
@@ -51,6 +61,9 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             // restore variables from Bundle
+            mSequence = savedInstanceState.getParcelable(SEQUENCE_TAG);
+            mCurrentIndex = savedInstanceState.getInt(INDEX_TAG);
+            mSequenceIndex = savedInstanceState.getInt(SEQUENCE_INDEX_TAG);
         }
         mHandler = new Handler();
     }
@@ -61,6 +74,7 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
         if (mSequence == null) {
             mSequence = new Sequence(BUTTON_IDS);
             mCurrentIndex = 0;
+            mSequenceIndex = 0;
         }
         return inflater.inflate(R.layout.game, container, false);
     }
@@ -93,6 +107,15 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
         initializeButtons();
 
         playSequence();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelable(SEQUENCE_TAG, mSequence);
+        outState.putInt(INDEX_TAG, mCurrentIndex);
+        outState.putInt(SEQUENCE_INDEX_TAG, mSequenceIndex);
     }
 
     @Override
@@ -182,6 +205,7 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
                     public void run() {
                         b.setBackground(getResources().getDrawable(R.drawable.upper_right_button, getContext().getTheme()));
                         mBlueSound.stop();
+                        mSequenceIndex++;
                     }
                 }, (long) (speed * ACTIVATE_PERCENT));
                 break;
@@ -196,6 +220,7 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
                     public void run() {
                         b.setBackground(getResources().getDrawable(R.drawable.upper_left_button, getContext().getTheme()));
                         mRedSound.stop();
+                        mSequenceIndex++;
                     }
                 }, (long) (speed * ACTIVATE_PERCENT));
                 break;
@@ -210,6 +235,7 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
                     public void run() {
                         b.setBackground(getResources().getDrawable(R.drawable.lower_left_button, getContext().getTheme()));
                         mGreenSound.stop();
+                        mSequenceIndex++;
                     }
                 }, (long) (speed * ACTIVATE_PERCENT));
                 break;
@@ -224,6 +250,7 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
                     public void run() {
                         b.setBackground(getResources().getDrawable(R.drawable.lower_right_button, getContext().getTheme()));
                         mYellowSound.stop();
+                        mSequenceIndex++;
                     }
                 }, (long) (speed * ACTIVATE_PERCENT));
                 break;
@@ -253,9 +280,9 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
 
         Button.OnTouchListener buttonListener = new Button.OnTouchListener(){
             public boolean onTouch(View v, MotionEvent e) {
-                //Log.d(TAG, "View ID: " + v.getId());
-                //Log.d(TAG, "Current Index: " + mCurrentIndex);
-                //Log.d(TAG, "Verify: " + mSequence.verify(v.getId(), mCurrentIndex));
+                Log.d(TAG, "View ID: " + v.getId());
+                Log.d(TAG, "Current Index: " + mCurrentIndex);
+                Log.d(TAG, "Verify: " + mSequence.verify(v.getId(), mCurrentIndex));
                 int theId = v.getId();
                 if (e.getAction() == MotionEvent.ACTION_UP) {
                     if (mSequence.verify(theId, mCurrentIndex)) {
@@ -263,22 +290,18 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
 
                         switch (v.getId()) {
                             case R.id.blue:
-                                mBlueSound.setLooping(true);
                                 mBlueSound.stop();
                                 v.setBackground(getResources().getDrawable(R.drawable.upper_right_button, getContext().getTheme()));
                                 break;
                             case R.id.red:
-                                mRedSound.setLooping(true);
                                 mRedSound.stop();
                                 v.setBackground(getResources().getDrawable(R.drawable.upper_left_button, getContext().getTheme()));
                                 break;
                             case R.id.green:
-                                mGreenSound.setLooping(true);
                                 mGreenSound.stop();
                                 v.setBackground(getResources().getDrawable(R.drawable.lower_left_button, getContext().getTheme()));
                                 break;
                             case R.id.yellow:
-                                mYellowSound.setLooping(true);
                                 mYellowSound.stop();
                                 v.setBackground(getResources().getDrawable(R.drawable.lower_right_button, getContext().getTheme()));
                                 break;
@@ -287,6 +310,7 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
                         if (mCurrentIndex == mSequence.getSize()) {
                             setButtonsEnabled(false);
                             mCurrentIndex = 0;
+                            mSequenceIndex = 0;
                             mSequence.extend();
                             mHandler.postDelayed(new Runnable() {
                                 @Override
@@ -302,6 +326,7 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
                     return false;
                 }
                 else if (e.getAction() == MotionEvent.ACTION_DOWN){
+
                     switch (v.getId()) {
                         case R.id.blue:
                             mBlueSound.prepareAsync();
@@ -343,8 +368,9 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
 
 
         int index = 0;
-        for (Integer i : buttons) {
-            Button b = getView().findViewById((int) i);
+        for (int j = mSequenceIndex; j < buttons.size(); j++) {
+            int i = (int) buttons.get(j);
+            Button b = getView().findViewById(i);
             final int id = i;
             final int sequenceIndex = index;
             b.postDelayed(new Runnable() {
