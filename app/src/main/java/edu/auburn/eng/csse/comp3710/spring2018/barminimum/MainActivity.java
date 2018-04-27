@@ -1,12 +1,12 @@
-package com.bignerdranch.android.aubiesays;
+package edu.auburn.eng.csse.comp3710.spring2018.barminimum;
 
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
+
+import com.bignerdranch.android.aubiesays.R;
 
 public class MainActivity extends Activity implements MenuFragment.MenuListener, GameFragment.ScoreListener {
 

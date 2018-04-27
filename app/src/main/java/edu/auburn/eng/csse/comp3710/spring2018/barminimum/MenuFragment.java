@@ -1,4 +1,4 @@
-package com.bignerdranch.android.aubiesays;
+package edu.auburn.eng.csse.comp3710.spring2018.barminimum;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import com.bignerdranch.android.aubiesays.R;
 
 /**
  * Created by Lawrence-S on 4/21/2018.

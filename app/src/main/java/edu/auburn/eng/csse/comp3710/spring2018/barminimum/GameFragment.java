@@ -1,15 +1,13 @@
-package com.bignerdranch.android.aubiesays;
+package edu.auburn.eng.csse.comp3710.spring2018.barminimum;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -18,8 +16,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.util.Log;
 
-import java.io.FileDescriptor;
-import java.io.IOError;
+import com.bignerdranch.android.aubiesays.R;
+
 import java.io.IOException;
 import java.util.ArrayList;
 

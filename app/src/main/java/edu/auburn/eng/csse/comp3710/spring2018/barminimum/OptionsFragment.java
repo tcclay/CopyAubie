@@ -1,4 +1,4 @@
-package com.bignerdranch.android.aubiesays;
+package edu.auburn.eng.csse.comp3710.spring2018.barminimum;
 
 import android.os.Bundle;
 import android.preference.PreferenceFragment;

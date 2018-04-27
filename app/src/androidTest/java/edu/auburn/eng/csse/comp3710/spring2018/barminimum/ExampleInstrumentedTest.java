@@ -1,4 +1,4 @@
-package com.bignerdranch.android.aubiesays;
+package edu.auburn.eng.csse.comp3710.spring2018.barminimum;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
