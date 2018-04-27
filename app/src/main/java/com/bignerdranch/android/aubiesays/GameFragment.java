@@ -33,16 +33,19 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
     private static final int[] BUTTON_IDS = {R.id.blue, R.id.red, R.id.green, R.id.yellow};
     private static final double ACTIVATE_PERCENT = 0.8;
     private static final String TAG = "GameFragment";
+    private static final int MAX_HINTS = 3;
 
     // state tags
     private static final String SEQUENCE_TAG = "sequence";
     private static final String INDEX_TAG = "index";
     private static final String SEQUENCE_INDEX_TAG = "sequence_index";
+    private static final String HINTS_TAG = "hints";
 
     // state member variables
     private Sequence mSequence;
     private int mCurrentIndex;
     private int mSequenceIndex;
+    private int mNumHints;
 
     // non-state member variables
     private Handler mHandler;
@@ -64,6 +67,7 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
             mSequence = savedInstanceState.getParcelable(SEQUENCE_TAG);
             mCurrentIndex = savedInstanceState.getInt(INDEX_TAG);
             mSequenceIndex = savedInstanceState.getInt(SEQUENCE_INDEX_TAG);
+            mNumHints = savedInstanceState.getInt(HINTS_TAG);
         }
         mHandler = new Handler();
     }
@@ -75,6 +79,7 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
             mSequence = new Sequence(BUTTON_IDS);
             mCurrentIndex = 0;
             mSequenceIndex = 0;
+            mNumHints = MAX_HINTS;
         }
         return inflater.inflate(R.layout.game, container, false);
     }
@@ -116,6 +121,7 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
         outState.putParcelable(SEQUENCE_TAG, mSequence);
         outState.putInt(INDEX_TAG, mCurrentIndex);
         outState.putInt(SEQUENCE_INDEX_TAG, mSequenceIndex);
+        outState.putInt(HINTS_TAG, mNumHints);
     }
 
     @Override
@@ -267,6 +273,16 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
         for (int i : BUTTON_IDS) {
             ((Button) getView().findViewById(i)).setEnabled(enable);
         }
+
+        Button b = (Button) getView().findViewById(R.id.hint);
+        if (enable) {
+            b.setVisibility(View.VISIBLE);
+            b.setEnabled(true);
+        }
+        else {
+            b.setVisibility(View.GONE);
+            b.setEnabled(false);
+        }
     }
 
     public void initializeButtons() {
@@ -358,6 +374,25 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
             ((Button) getView().findViewById(i)).setOnTouchListener(buttonListener);
             ((Button) getView().findViewById(i)).setEnabled(true);
         }
+
+        Button.OnClickListener hintListener = new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSequenceIndex = 0;
+                mNumHints--;
+                if (mNumHints <= 0) {
+                    v.setEnabled(false);
+                    v.setVisibility(View.GONE);
+                }
+                playSequence();
+                String text = "Hints: " + mNumHints;
+                ((Button) v).setText(text);
+            }
+        };
+        Button b = (Button) getView().findViewById(R.id.hint);
+        b.setOnClickListener(hintListener);
+        String text = "Hints: " + mNumHints;
+        b.setText(text);
     }
 
     public void playSequence() {
