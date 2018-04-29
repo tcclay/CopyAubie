@@ -377,12 +377,11 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
         Button.OnClickListener hintListener = new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mNumHints <= 0) {
+                    return;
+                }
                 mSequenceIndex = 0;
                 mNumHints--;
-                if (mNumHints <= 0) {
-                    v.setEnabled(false);
-                    v.setVisibility(View.GONE);
-                }
                 playSequence();
                 String text = "Hints: " + mNumHints;
                 ((Button) v).setText(text);
