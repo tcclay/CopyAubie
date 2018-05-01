@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.util.Log;
 
-import com.bignerdranch.android.aubiesays.R;
+//import com.bignerdranch.android.aubiesays.R;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -265,10 +265,6 @@ public class GameFragment extends Fragment implements MediaPlayer.OnPreparedList
     }
 
     public void setButtonsEnabled(boolean enable) {
-        /*
-         * We need to set the OnClickListener for each button
-         * to be null.
-         */
         for (int i : BUTTON_IDS) {
             ((Button) getView().findViewById(i)).setEnabled(enable);
         }

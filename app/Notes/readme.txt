@@ -13,6 +13,9 @@ Known Bugs:
         due to some asynchronous bug. I believe this has since been fixed, but if
         it hasn't it occurs only rarely when rotating the screen while the sequence
         is being played.
+    - The MediaPlayer objects sometimes behave unexpectedly and cause a runtime exception.
+        This has to do with prepareAsync() being called in the wrong state, but I cannot figure
+        out how this occurs. It doesn't help that this bug is extremely hard to replicate.
 
 Miscellaneous:
     - Screen orientation is locked for the splash screen only. Screen orientation
